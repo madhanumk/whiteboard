@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-ke!29l_1zke0i+-efd-&di3@4&i)9bg^a3b+z5_lv2wtvw9zz9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
 
 # Application definition
@@ -71,7 +71,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'onlinewhiteboard.wsgi.application'
-
+ASGI_APPLICATION = "onlinewhiteboard.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
@@ -125,7 +125,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ASGI_APPLICATION = "onlinewhiteboard.asgi.application"
+
 
 CHANNEL_LAYERS = {
     'default': {

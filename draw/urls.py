@@ -17,6 +17,11 @@ Including another URLconf
 
 from django.urls import path
 from .views import draww
+from draw import consumers
+
+websocket_urlpatterns = [
+    path('ws/canvas/', consumers.CanvasConsumer.as_asgi()),  # Define WebSocket route
+]
 
 urlpatterns = [
     path('draww/', draww,name="draww"),
