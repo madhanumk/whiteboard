@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fabric.js Example with Typing</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fabric.js/5.2.4/fabric.min.js"></script>
+    <style>
+        #canvas-container {
+            border: 1px solid #ccc;
+            margin: 20px 0;
+        }
+        button, input[type="file"] {
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Fabric.js Example with Typing</h1>
+    <div>
+        <button onclick="addText()">Add Text</button>
+        <button onclick="addEmoji('😊')">Add Emoji 😊</button>
+        <button onclick="addEmoji('❤️')">Add Emoji ❤️</button>
+        <input type="file" id="uploadImage" accept="image/*" />
+        <button onclick="enableDrawing()">Enable Drawing</button>
+        <button onclick="disableDrawing()">Disable Drawing</button>
+        <button onclick="bringForward()">Bring Forward</button>
+        <button onclick="sendBackward()">Send Backward</button>
+        <button onclick="clearCanvas()">Clear Canvas</button>
+    </div>
+    <div id="canvas-container">
+        <canvas id="fabricCanvas" width="800" height="600"></canvas>
+    </div>
+    <script>
+        // Initialize Fabric.js Canvas
+        const canvas = new fabric.Canvas('fabricCanvas', {
+            backgroundColor: 'white',
+            isDrawingMode: false,
+        });
+
+        // Add Text to Canvas
+        function addText() {
+            const text = new fabric.Textbox('Type here...', {
+                left: 100,
+                top: 100,
+                fontSize: 20,
+                width: 200,
+                selectable: true,
+                editable: true,
+            });
+            canvas.add(text);
+            canvas.setActiveObject(text);
+        }
+
+        // Add Emoji to Canvas
+        function addEmoji(emoji) {
+            const text = new fabric.Text(emoji, {
+                left: 100,
+                top: 100,
+                fontSize: 60,
+                selectable: true,
+            });
+            canvas.add(text);
+        }
+
+        // Handle Image Upload
+        document.getElementById('uploadImage').addEventListener('change', function (e) {
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                fabric.Image.fromURL(event.target.result, function (img) {
+                    img.scaleToWidth(200);
+                    img.set({ left: 100, top: 100, selectable: true });
+                    canvas.add(img);
+                });
+            };
+            reader.readAsDataURL(e.target.files[0]);
+        });
+
+        // Enable Drawing Mode
+        function enableDrawing() {
+            canvas.isDrawingMode = true;
+            canvas.freeDrawingBrush.width = 3;
+            canvas.freeDrawingBrush.color = 'black';
+        }
+
+        // Disable Drawing Mode
+        function disableDrawing() {
+            canvas.isDrawingMode = false;
+        }
+
+        // Bring selected object forward
+        function bringForward() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.bringForward(activeObject);
+            } else {
+                alert('Select an object to bring forward.');
+            }
+        }
+
+        // Send selected object backward
+        function sendBackward() {
+            const activeObject = canvas.getActiveObject();
+            if (activeObject) {
+                canvas.sendBackwards(activeObject);
+            } else {
+                alert('Select an object to send backward.');
+            }
+        }
+
+        // Clear Canvas
+        function clearCanvas() {
+            canvas.clear();
+            canvas.backgroundColor = 'white';
+        }
+    </script>
+</body>
+</html>
