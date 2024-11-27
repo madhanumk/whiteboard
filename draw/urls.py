@@ -16,13 +16,15 @@ Including another URLconf
 """
 
 from django.urls import path
-from .views import draww
+from .views import draw, home, create_classroom
 from draw import consumers
 
 websocket_urlpatterns = [
-    path('ws/canvas/', consumers.CanvasConsumer.as_asgi()),  # Define WebSocket route
+    path('ws/canvas/<slug:slug>/', consumers.CanvasConsumer.as_asgi()),  # Define WebSocket route
 ]
 
 urlpatterns = [
-    path('draww/', draww,name="draww"),
+    path('', home,name="home"),
+    path('draw/<str:slug>/', draw,name="draw"),
+    path('create-classroom/', create_classroom, name='create_classroom'),
 ]
